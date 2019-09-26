@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}Task{% endblock %}
+{% block menu %}
+{#        <li><a href="{% url 'task_list' %}">List Task</a></li>#}
+{#        <li><a href="{% url 'task_update' tasks.pk %}">Edit</a></li>#}
+{#        <li><a href="{% url 'task_delete' tasks.pk %}">Delete</a></li>#}
+
+{% endblock %}
+{% block content %}
+    <h1>{{ tasks.summary }}</h1>
+    <p>Description task:  <b>{{ tasks.description }}</b> </p>
+    <p>Status:  <b>{{ tasks.status }}</b> </p>
+    <p>Type: <b>{{ tasks.type }}</b></p>
+    <p>Date Created: {{ tasks.created_at|date:'Y-m-d' }}</p>
+{% endblock %}
+
