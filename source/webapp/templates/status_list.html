@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block menu %}
+           <li><a href="{% url 'status_add' %}">Add New Status</a></li>
+{% endblock %}
+{% block content %}
+<h1 class="text-center">Statuses:</h1>
+    <p><a href="{% url 'status_add' %}">Add New Status</a></p>
+    {% for stat in status %}
+        <div>{{ stat.status }}</div>
+        <hr/>
+    {% endfor %}
+{% endblock %}
+</body>
+</html>

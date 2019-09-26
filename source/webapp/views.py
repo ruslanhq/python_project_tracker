@@ -1,8 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import View, TemplateView
 
-from webapp.forms import TaskForm
-from webapp.models import Task
+from webapp.forms import TaskForm, StatusForm, TypeForm
+from webapp.models import Task, Status, Type
 # Create your views here.
 
 
@@ -52,8 +52,8 @@ class TaskUpdate(View):
         tasks = get_object_or_404(Task, pk=pk)
         form = TaskForm(data={'summary': tasks.summary,
                               'description': tasks.description,
-                              'status': tasks.status,
-                              'type': tasks.type}
+                              'status': tasks.status_id,
+                              'type': tasks.type_id}
                         )
         return render(request, 'update.html', context={'tasks': tasks, 'form': form})
 
@@ -91,5 +91,55 @@ class TaskDelete(View):
         return redirect('index')
 
 
+def status_view(request, *args, **kwargs):
+    status = Status.objects.all()
+    return render(request, 'status_list.html', context={
+        'status': status
+    })
+
+
+def type_view(request, *args, **kwargs):
+    type = Type.objects.all()
+    return render(request, 'type_list.html', context={
+        'type': type
+    })
+
+
+def status_create(request,*args, **kwargs ):
+    if request.method == 'GET':
+        form = StatusForm()
+        return render(request, 'add_status.html', context={
+            'form': form
+        })
+    elif request.method == 'POST':
+        form = StatusForm(data=request.POST)
+        if form.is_valid():
+            status = Status.objects.create(
+                status=form.cleaned_data['status']
+            )
+            return redirect('status_list')
+        else:
+            return render(request, 'add_status.html', context={
+                'form': form
+            })
+
+
+def type_create(request,*args, **kwargs ):
+    if request.method == 'GET':
+        form = TypeForm()
+        return render(request, 'add_type.html', context={
+            'form': form
+        })
+    elif request.method == 'POST':
+        form = TypeForm(data=request.POST)
+        if form.is_valid():
+            type = Type.objects.create(
+                type=form.cleaned_data['type']
+            )
+            return redirect('type_list')
+        else:
+            return render(request, 'add_type.html', context={
+                'form': form
+            })
 
 

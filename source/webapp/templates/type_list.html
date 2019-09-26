@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block menu %}
+           <li><a href="{% url 'type_add' %}">Add New Type</a></li>
+{% endblock %}
+{% block content %}
+<h1 class="text-center">Types:</h1>
+    <p><a href="{% url 'type_add' %}">Add New Type</a></p>
+    {% for typ in type %}
+        <div>{{ typ.type }}</div>
+        <hr/>
+    {% endfor %}
+{% endblock %}
+</body>
+</html>

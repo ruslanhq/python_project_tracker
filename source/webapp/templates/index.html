@@ -2,6 +2,9 @@
 
 {% block menu %}
            <li><a href="{% url 'task_create' %}">Add Task</a></li>
+           <li><a href="{% url 'status_list' %}">Status List</a></li>
+           <li><a href="{% url 'type_list' %}">Type List</a></li>
+
 {% endblock %}
 {% block content %}
 <h1 class="text-center">Tasks:</h1>
@@ -9,8 +12,8 @@
         <h2>{{ task.title }}</h2>
         <div>{{ task.summary }}</div>
         <p><a href="{% url 'task_view' task.pk %}">More...</a></p>
-{#        <p><a href="{% url 'article_update' article.pk %}">Edit</a></p>#}
-{#        <p><a href="{% url 'article_delete' article.pk %}">Delete</a></p>#}
+        <p><a href="{% url 'task_update' task.pk %}">Edit</a></p>
+        <p><a href="{% url 'task_delete' task.pk %}">Delete</a></p>
         <hr/>
     {% endfor %}
 {% endblock %}
