@@ -74,3 +74,22 @@ class TaskUpdate(View):
                                    'tasks': tasks.pk }
                           )
 
+
+class TaskDelete(View):
+
+    def get(self, request, *args, **kwargs):
+        pk = kwargs.get('pk')
+        tasks = get_object_or_404(Task, pk=pk)
+        return render(request, 'delete.html', {
+            'tasks': tasks
+        })
+
+    def post(self, requset, *args, **kwargs):
+        pk = kwargs.get('pk')
+        tasks = get_object_or_404(Task, pk=pk)
+        tasks.delete()
+        return redirect('index')
+
+
+
+
