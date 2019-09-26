@@ -44,3 +44,33 @@ class TaskCreate(View):
             return redirect('task_view', pk=tasks.pk)
         else:
             return render(request, 'task_create.html', context={'form': form})
+
+
+class TaskUpdate(View):
+    def get(self, request, *args, **kwargs):
+        pk = kwargs.get('pk')
+        tasks = get_object_or_404(Task, pk=pk)
+        form = TaskForm(data={'summary': tasks.summary,
+                              'description': tasks.description,
+                              'status': tasks.status,
+                              'type': tasks.type}
+                        )
+        return render(request, 'update.html', context={'tasks': tasks, 'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = TaskForm(data=request.POST)
+        pk = kwargs.get('pk')
+        tasks = get_object_or_404(Task, pk=pk)
+        if form.is_valid():
+            tasks.summary = form.cleaned_data['summary']
+            tasks.description = form.cleaned_data['description']
+            tasks.status = form.cleaned_data['status']
+            tasks.type = form.cleaned_data['type']
+            tasks.save()
+            return redirect('task_view', pk=pk)
+        else:
+            return render(request, 'update.html',
+                          context={'form': form,
+                                   'tasks': tasks.pk }
+                          )
+
