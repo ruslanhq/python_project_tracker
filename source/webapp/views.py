@@ -143,3 +143,58 @@ def type_create(request,*args, **kwargs ):
             })
 
 
+def status_update(request, pk):
+    status = get_object_or_404(Status, pk=pk)
+    if request.method == 'GET':
+        form = StatusForm(data={'status': status.status})
+        return render(request, 'status_update.html', context={
+            'form': form,
+            'status': status
+        })
+    elif request.method == 'POST':
+        form = StatusForm(data=request.POST)
+        if form.is_valid():
+            status.status = form.cleaned_data['status']
+            status.save()
+            return redirect('status_list')
+        else:
+            return render(request, 'status_update.html', context={
+                'form': form,
+                'status': status
+            })
+
+
+def type_update(request, pk):
+    type = get_object_or_404(Type, pk=pk)
+    if request.method == 'GET':
+        form = TypeForm(data={'type': type.type})
+        return render(request, 'type_update.html', context={
+            'form': form,
+            'type': type
+        })
+    elif request.method == 'POST':
+        form = TypeForm(data=request.POST)
+        if form.is_valid():
+            type.status = form.cleaned_data['type']
+            type.type = form.cleaned_data['type']
+            type.save()
+            return redirect('type_list')
+        else:
+            return render(request, 'type_update.html', context={
+                'form': form,
+                'type': type
+            })
+
+
+def status_delete(request, pk):
+    status = get_object_or_404(Status, pk=pk)
+    status.delete()
+    return redirect('status_list')
+
+
+def type_delete(request, pk):
+    type = get_object_or_404(Type, pk=pk)
+    type.delete()
+    return redirect('type_list')
+
+

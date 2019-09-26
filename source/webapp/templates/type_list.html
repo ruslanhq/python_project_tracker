@@ -7,6 +7,8 @@
     <p><a href="{% url 'type_add' %}">Add New Type</a></p>
     {% for typ in type %}
         <div>{{ typ.type }}</div>
+        <p><a href="{% url 'type_update' typ.pk %}">Edit</a></p>
+        <p><a href="{% url 'type_delete' typ.pk %}">Delete</a></p>
         <hr/>
     {% endfor %}
 {% endblock %}
