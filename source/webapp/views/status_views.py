@@ -1,15 +1,15 @@
 from django.shortcuts import render, get_object_or_404, redirect
 
 from webapp.forms import StatusForm
-from webapp.models import  Status
+from webapp.models import Status
+from django.views.generic import ListView
 # Create your views here.
 
 
-def status_view(request, *args, **kwargs):
-    status = Status.objects.all()
-    return render(request, 'status/status_list.html', context={
-        'status': status
-    })
+class StatusView(ListView):
+    context_object_name = 'status'
+    template_name = 'status/status_list.html'
+    model = Status
 
 
 def status_create(request,*args, **kwargs ):

@@ -1,18 +1,18 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.views.generic import View, TemplateView
+from django.views.generic import View, TemplateView, ListView
 
 from webapp.forms import TaskForm
 from webapp.models import Task
 # Create your views here.
 
 
-class IndexView(TemplateView):
+class IndexView(ListView):
+    context_object_name = 'tasks'
     template_name = 'task/index.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['tasks'] = Task.objects.all()
-        return context
+    model = Task
+    ordering = '-created_at'
+    paginate_by = 2
+    paginate_orphans = 1
 
 
 class TaskView(TemplateView):

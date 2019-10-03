@@ -8,6 +8,9 @@
 {% endblock %}
 {% block content %}
 <h1 class="text-center">Tasks:</h1>
+    {% if  is_paginated %}
+        {% include 'partial/pagination.html' %}
+    {% endif %}
     {% for task in tasks %}
         <h2>{{ task.title }}</h2>
         <div>{{ task.summary }}</div>
