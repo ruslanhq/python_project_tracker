@@ -1,8 +1,9 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.views.generic import View, TemplateView, ListView
+from django.views.generic import View, ListView
 
 from webapp.forms import TaskForm
 from webapp.models import Task
+from .base_views import DetailView
 # Create your views here.
 
 
@@ -15,14 +16,11 @@ class IndexView(ListView):
     paginate_orphans = 1
 
 
-class TaskView(TemplateView):
+class TaskView(DetailView):
+    context_key = 'tasks'
+    model = Task
     template_name = 'task/task.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        task_pk = kwargs.get('pk')
-        context['tasks'] = get_object_or_404(Task, pk=task_pk)
-        return context
+    pk_kwargs_page = 'pk'
 
 
 class TaskCreate(View):
