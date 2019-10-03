@@ -2,14 +2,13 @@ from django.shortcuts import render, get_object_or_404, redirect
 
 from webapp.forms import TypeForm
 from webapp.models import Type
-# Create your views here.
+from django.views.generic import ListView
 
 
-def type_view(request, *args, **kwargs):
-    type = Type.objects.all()
-    return render(request, 'type/type_list.html', context={
-        'type': type
-    })
+class TypeView(ListView):
+    context_object_name = 'type'
+    template_name = 'type/type_list.html'
+    model = Type
 
 
 def type_create(request,*args, **kwargs ):
