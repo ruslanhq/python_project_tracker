@@ -26,5 +26,9 @@ class StatusForm(forms.ModelForm):
         fields = ['status']
 
 
-class TypeForm(forms.Form):
-    type = forms.CharField(max_length=10, required=True, label='Название')
+class TypeForm(forms.ModelForm):
+    class Meta:
+        model = Type
+        fields = ['type']
+# class TypeForm(forms.Form):
+#     type = forms.CharField(max_length=10, required=True, label='Название')

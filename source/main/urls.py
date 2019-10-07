@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from webapp.views import IndexView, TaskView, TaskCreate, TaskUpdate, TaskDelete, StatusView, TypeView,\
-    StatusCreate, type_create, status_update, type_update, status_delete, type_delete
+    StatusCreate, TypeCreate, status_update, type_update, status_delete, type_delete
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,7 +28,7 @@ urlpatterns = [
     path('status/list/', StatusView.as_view(), name='status_list'),
     path('type/list/', TypeView.as_view(), name='type_list'),
     path('status/create/', StatusCreate.as_view(), name='status_add'),
-    path('type/create/', type_create, name='type_add'),
+    path('type/create/', TypeCreate.as_view(), name='type_add'),
     path('status/update/<int:pk>/', status_update, name='status_update'),
     path('type/update/<int:pk>/', type_update, name='type_update'),
     path('status/delete/<int:pk>/', status_delete, name='status_delete'),
