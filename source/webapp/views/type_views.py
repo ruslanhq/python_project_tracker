@@ -44,6 +44,17 @@ class TypeCreate(CreateView):
 #             })
 
 
+class TypeUpdate(UpdateView):
+    form_class = TypeForm
+    template_name = 'type/type_update.html'
+    redirect_url = 'type_list'
+    model = Type
+    context_object_name = 'type'
+
+    def get_success_url(self):
+        return reverse('type_list', kwargs={self.pk_kwargs_page: self.object.pk})
+
+
 def type_delete(request, pk):
     type = get_object_or_404(Type, pk=pk)
     type.delete()
