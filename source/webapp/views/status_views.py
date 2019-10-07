@@ -3,6 +3,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from webapp.forms import StatusForm
 from webapp.models import Status
 from django.views.generic import ListView
+
 # Create your views here.
 
 
