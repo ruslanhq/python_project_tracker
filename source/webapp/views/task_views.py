@@ -4,7 +4,7 @@ from django.views.generic import View, ListView, CreateView
 
 from webapp.forms import TaskForm
 from webapp.models import Task
-from .base_views import DetailView
+from .base_views import DetailView, UpdateView
 # Create your views here.
 
 
@@ -33,33 +33,15 @@ class TaskCreate(CreateView):
         return reverse('task_view', kwargs={'pk': self.object.pk})
 
 
-class TaskUpdate(View):
-    def get(self, request, *args, **kwargs):
-        pk = kwargs.get('pk')
-        tasks = get_object_or_404(Task, pk=pk)
-        form = TaskForm(data={'summary': tasks.summary,
-                              'description': tasks.description,
-                              'status': tasks.status_id,
-                              'type': tasks.type_id}
-                        )
-        return render(request, 'task/update.html', context={'tasks': tasks, 'form': form})
+class TaskUpdate(UpdateView):
+    form_class = TaskForm
+    template_name = 'task/update.html'
+    redirect_url = 'index'
+    model = Task
+    context_object_name = 'tasks'
 
-    def post(self, request, *args, **kwargs):
-        form = TaskForm(data=request.POST)
-        pk = kwargs.get('pk')
-        tasks = get_object_or_404(Task, pk=pk)
-        if form.is_valid():
-            tasks.summary = form.cleaned_data['summary']
-            tasks.description = form.cleaned_data['description']
-            tasks.status = form.cleaned_data['status']
-            tasks.type = form.cleaned_data['type']
-            tasks.save()
-            return redirect('task_view', pk=pk)
-        else:
-            return render(request, 'task/update.html',
-                          context={'form': form,
-                                   'tasks': tasks.pk }
-                          )
+    def get_success_url(self):
+        return reverse('task_view', kwargs={self.pk_kwargs_page: self.object.pk})
 
 
 class TaskDelete(View):
