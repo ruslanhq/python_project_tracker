@@ -18,7 +18,7 @@ class DetailView(TemplateView):
 class UpdateView(View):
     form_class = None
     template_name = None
-    redirect_url = 'index'
+    redirect_url = ''
     model = None
     pk_kwargs_page = 'pk'
     context_object_name = None
