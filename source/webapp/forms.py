@@ -15,9 +15,15 @@ class TaskForm(forms.ModelForm):
         model = Task
         exclude = ['created_at']
 
+#
+# class StatusForm(forms.Form):
+#     status = forms.CharField(max_length=10, required=True,  label='Название')
 
-class StatusForm(forms.Form):
-    status = forms.CharField(max_length=10, required=True,  label='Название')
+
+class StatusForm(forms.ModelForm):
+    class Meta:
+        model = Status
+        fields = ['status']
 
 
 class TypeForm(forms.Form):
