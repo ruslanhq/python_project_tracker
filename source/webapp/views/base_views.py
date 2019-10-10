@@ -47,3 +47,27 @@ class UpdateView(View):
 
     def form_invalid(self, form):
         return render(self.request, self.template_name, context={'form': form})
+
+
+# class TaskDelete(View):
+#     form_class = None
+#     template_name = None
+#     redirect_url = ''
+#     model = None
+#     pk_kwargs_page = 'pk'
+#     context_object_name = None
+#     confirm = False
+#
+#     def get(self, request, *args, **kwargs):
+#         pk = kwargs.get('pk')
+#         self.object = get_object_or_404(self.model, pk=pk)
+#         form = self.form_class(instance=self.object)
+#         if self.confirm == True:
+#             return render(request, self.template_name, context={'form': form, self.context_object_name: self.object})
+#
+#     def post(self, requset, *args, **kwargs):
+#         pk = kwargs.get('pk')
+#         tasks = get_object_or_404(Task, pk=pk)
+#         tasks.delete()
+#         return redirect('index')
+# НЕ УСПЕЛ.
