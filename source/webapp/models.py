@@ -27,3 +27,11 @@ class Type(models.Model):
     def __str__(self):
         return self.type
 
+
+class Project(models.Model):
+    name = models.CharField(max_length=17, verbose_name='Название проекта')
+    description = models.TextField(max_length=400, null=True, blank=True, verbose_name='Описание проекта')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
+    updated_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата обновления')
+
+
