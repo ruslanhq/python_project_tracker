@@ -3,8 +3,8 @@ from django.urls import reverse
 
 from webapp.forms import TypeForm
 from webapp.models import Type
-from django.views.generic import ListView, CreateView
-from .base_views import UpdateView
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+# from .base_views import UpdateView
 
 
 class TypeView(ListView):
@@ -21,28 +21,6 @@ class TypeCreate(CreateView):
     def get_success_url(self):
         return reverse('type_list')
 
-#
-# def type_update(request, pk):
-#     type = get_object_or_404(Type, pk=pk)
-#     if request.method == 'GET':
-#         form = TypeForm(data={'type': type.type})
-#         return render(request, 'type/type_update.html', context={
-#             'form': form,
-#             'type': type
-#         })
-#     elif request.method == 'POST':
-#         form = TypeForm(data=request.POST)
-#         if form.is_valid():
-#             type.status = form.cleaned_data['type']
-#             type.type = form.cleaned_data['type']
-#             type.save()
-#             return redirect('type_list')
-#         else:
-#             return render(request, 'type/type_update.html', context={
-#                 'form': form,
-#                 'type': type
-#             })
-
 
 class TypeUpdate(UpdateView):
     form_class = TypeForm
@@ -52,12 +30,16 @@ class TypeUpdate(UpdateView):
     context_object_name = 'type'
 
     def get_success_url(self):
-        return reverse('type_list', kwargs={self.pk_kwargs_page: self.object.pk})
+        return reverse('type_list')
 
 
-def type_delete(request, pk):
-    type = get_object_or_404(Type, pk=pk)
-    type.delete()
-    return redirect('type_list')
+class DeleteType(DeleteView):
+    model = Type
+
+    def get(self, request, *args, **kwargs):
+        return self.delete(request, *args, **kwargs)
+
+    def get_success_url(self):
+        return reverse('type_list')
 
 
