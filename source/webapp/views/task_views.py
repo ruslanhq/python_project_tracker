@@ -18,9 +18,10 @@ class IndexView(ListView):
 
 
 class TaskView(DetailView):
-    context_key = 'tasks'
+    pk_url_kwarg = 'pk'
     model = Task
     template_name = 'task/task.html'
+    context_object_name = 'tasks'
 
 
 class TaskCreate(CreateView):
@@ -35,7 +36,6 @@ class TaskCreate(CreateView):
 class TaskUpdate(UpdateView):
     form_class = TaskForm
     template_name = 'task/update.html'
-    redirect_url = 'index'
     model = Task
     context_object_name = 'tasks'
 
