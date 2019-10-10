@@ -2,7 +2,7 @@
 {% block title %}Project{% endblock %}
 {% block menu %}
         <li><a href="{% url 'project_update' projects.pk %}">Edit</a></li>
-{#        <li><a href="{% url 'task_delete' tasks.pk %}">Delete</a></li>#}
+        <li><a href="{% url 'project_delete' projects.pk %}">Delete</a></li>
 
 {% endblock %}
 {% block content %}
@@ -10,9 +10,10 @@
     <p>Description projects:  <b>{{ projects.description }}</b> </p>
     <h3 class="text-center">Задачи проеката:</h3>
     {% for task in tasks %}
-        <p>{{ task.summary }}</p>
+        <a href="{% url 'task_view' task.pk  %}"><p>{{ task.summary }}</p></a>
         <hr/>
     {% endfor %}
-    <p>Date Created: {{ projects.created_at|date:'Y-m-d' }}</p>
+    <h4>Дата создания:</h4>
+    <p>{{ projects.created_at|date:'Y-m-d' }}</p>
 {% endblock %}
 
