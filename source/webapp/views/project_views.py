@@ -10,7 +10,7 @@ class ProjectList(ListView):
     template_name = 'project/index.html'
     model = Project
     ordering = '-created_at'
-    paginate_by = 2
+    paginate_by = 5
     paginate_orphans = 1
 
 
@@ -19,3 +19,12 @@ class ProjectView(DetailView):
     model = Project
     template_name = 'project/project.html'
     context_object_name = 'projects'
+
+
+class ProjectCreate(CreateView):
+    model = Project
+    template_name = 'project/create.html'
+    form_class = ProjectForm
+
+    def get_success_url(self):
+        return reverse('project_view', kwargs={'pk': self.object.pk})
