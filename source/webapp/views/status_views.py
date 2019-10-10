@@ -33,7 +33,7 @@ class StatusUpdate(UpdateView):
     context_object_name = 'status'
 
     def get_success_url(self):
-        return reverse('status_list', kwargs={'pk': self.object.pk})
+        return reverse('status_list')
 
 
 class StatusDelete(DeleteView):
@@ -43,4 +43,4 @@ class StatusDelete(DeleteView):
         return self.delete(request, *args, **kwargs)
 
     def get_success_url(self):
-        return reverse('status_list', kwargs={'pk':self.object.pk})
+        return reverse('status_list')
