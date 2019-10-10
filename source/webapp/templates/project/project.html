@@ -1,13 +1,18 @@
 {% extends 'base.html' %}
 {% block title %}Project{% endblock %}
 {% block menu %}
-{#        <li><a href="{% url 'task_update' tasks.pk %}">Edit</a></li>#}
+        <li><a href="{% url 'project_update' projects.pk %}">Edit</a></li>
 {#        <li><a href="{% url 'task_delete' tasks.pk %}">Delete</a></li>#}
 
 {% endblock %}
 {% block content %}
     <h1>{{ projects.name }}</h1>
     <p>Description projects:  <b>{{ projects.description }}</b> </p>
+    <h3 class="text-center">Задачи проеката:</h3>
+    {% for task in tasks %}
+        <p>{{ task.summary }}</p>
+        <hr/>
+    {% endfor %}
     <p>Date Created: {{ projects.created_at|date:'Y-m-d' }}</p>
 {% endblock %}
 

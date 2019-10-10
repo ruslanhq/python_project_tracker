@@ -20,11 +20,27 @@ class ProjectView(DetailView):
     template_name = 'project/project.html'
     context_object_name = 'projects'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        obj = self.get_object()
+        context['tasks'] = obj.projects.all().order_by('-created_at')
+        return context
+
 
 class ProjectCreate(CreateView):
     model = Project
     template_name = 'project/create.html'
     form_class = ProjectForm
+
+    def get_success_url(self):
+        return reverse('project_view', kwargs={'pk': self.object.pk})
+
+
+class ProjectUpdate(UpdateView):
+    form_class = ProjectForm
+    template_name = 'project/update.html'
+    model = Project
+    context_object_name = 'projects'
 
     def get_success_url(self):
         return reverse('project_view', kwargs={'pk': self.object.pk})
