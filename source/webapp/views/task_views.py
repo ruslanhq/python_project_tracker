@@ -1,12 +1,10 @@
 from django.db.models import Q
-from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse, reverse_lazy
 from django.utils.http import urlencode
 from django.views.generic import View, ListView, DetailView, CreateView, UpdateView, DeleteView
 
 from webapp.forms import TaskForm, SimpleSearchForm
 from webapp.models import Task
-# from .base_views import DetailView, UpdateView
 # Create your views here.
 
 
