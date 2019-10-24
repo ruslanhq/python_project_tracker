@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 
@@ -13,7 +14,7 @@ class TypeView(ListView):
     model = Type
 
 
-class TypeCreate(CreateView):
+class TypeCreate(LoginRequiredMixin, CreateView):
     model = Type
     template_name = 'type/add_type.html'
     form_class = TypeForm
@@ -22,7 +23,7 @@ class TypeCreate(CreateView):
         return reverse('type_list')
 
 
-class TypeUpdate(UpdateView):
+class TypeUpdate(LoginRequiredMixin, UpdateView):
     form_class = TypeForm
     template_name = 'type/type_update.html'
     redirect_url = 'type_list'
@@ -33,7 +34,7 @@ class TypeUpdate(UpdateView):
         return reverse('type_list')
 
 
-class DeleteType(DeleteView):
+class DeleteType(LoginRequiredMixin, DeleteView):
     model = Type
 
     def get(self, request, *args, **kwargs):
