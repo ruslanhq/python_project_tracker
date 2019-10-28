@@ -33,7 +33,9 @@ def register_view(request):
     elif request.method == 'POST':
         form = UserCreationForm(data=request.POST)
         if form.is_valid():
-            user = User(username=form.cleaned_data['username'])
+            user = User(username=form.cleaned_data['username'],
+                        email=form.cleaned_data['email']
+                        )
             user.set_password(form.cleaned_data['password'])
             user.save()
             login(request, user)
