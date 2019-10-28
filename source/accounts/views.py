@@ -34,7 +34,9 @@ def register_view(request):
         form = UserCreationForm(data=request.POST)
         if form.is_valid():
             user = User(username=form.cleaned_data['username'],
-                        email=form.cleaned_data['email']
+                        email=form.cleaned_data['email'],
+                        first_name=form.cleaned_data['first_name'],
+                        last_name=form.cleaned_data['last_name']
                         )
             user.set_password(form.cleaned_data['password'])
             user.save()
