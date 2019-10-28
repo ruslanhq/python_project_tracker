@@ -24,5 +24,6 @@ class UserCreationForm(forms.Form):
         password_1 = self.cleaned_data['password']
         password_2 = self.cleaned_data['password_confirm']
         if password_1 != password_2:
-            raise ValidationError('Passwords do not match', code='passwords_do_not_match')
+            raise ValidationError('Passwords do not match',
+                                  code='passwords_do_not_match')
         return self.cleaned_data
