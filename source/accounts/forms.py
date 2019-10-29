@@ -13,13 +13,6 @@ class UserCreationForm(forms.Form):
     first_name = forms.CharField(max_length=20, label='Name', required=False)
     last_name = forms.CharField(max_length=20, label='Last Name', required=False)
 
-    # def clean_name(self):
-    #     first_name = self.cleaned_data.get('first_name')
-    #     last_name = self.cleaned_data.get('last_name')
-    #     if not first_name or last_name:
-    #         raise ValidationError('Name or Last Name cannot be empty', code='name_or_last_name_empty')
-    #     return self.cleaned_data
-
     def clean_email(self):
         email = self.cleaned_data.get('email')
         try:
@@ -51,3 +44,9 @@ class UserCreationForm(forms.Form):
             raise ValidationError('Name or Last Name cannot be empty', code='name_or_last_name_empty')
 
         return self.cleaned_data
+
+
+class UserUpdateForm(forms.ModelForm):
+    class Meta:
+        model: User
+        fields = ['first_name', 'last_name', 'email']

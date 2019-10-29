@@ -1,9 +1,11 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import UserPassesTestMixin
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
+from django.views.generic import DetailView, UpdateView
 
-from accounts.forms import UserCreationForm
+from accounts.forms import UserCreationForm, UserUpdateForm
 
 
 def login_view(request):
@@ -45,3 +47,16 @@ def register_view(request):
         else:
             return render(request, 'register.html', {'form': form})
 
+
+class UserDetailView(DetailView):
+    model = User
+    template_name = 'user_detail.html'
+    context_object_name = 'user_obj'
+
+
+# class UserChangeView(UserPassesTestMixin, UpdateView):
+#     model = User
+#     template_name = 'user_update.html'
+#     context_object_name = 'user_obj'
+#     form_class = UserUpdateForm
+#
