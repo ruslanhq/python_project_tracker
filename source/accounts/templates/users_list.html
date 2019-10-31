@@ -6,11 +6,15 @@
 {% endblock %}
 {% block content %}
 <h1 class="text-center">Users:</h1>
-    {% for users in user_obj %}
-        <h2>{{ users.username }}</h2>
-{#        <p><a href="{% url 'project_view' project.pk %}">More...</a></p>#}
+{#    {% if request.user.is_authenticated %}#}
+{#    {% endif %}#}
+    {% for user in users %}
+        <h2>{{ user.username }}</h2>
+        <p><a href="{% url 'accounts:user_profile' user.pk %}">Personal Account</a></p>
         <hr/>
     {% endfor %}
 {% endblock %}
 </body>
 </html>
+
+

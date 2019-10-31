@@ -78,6 +78,8 @@ class UserChangePasswordView(UserChangeView):
 
 
 class UserListView(ListView):
-    context_object_name = 'user_obj'
+    context_object_name = 'users'
     template_name = 'users_list.html'
     model = User
+
+
