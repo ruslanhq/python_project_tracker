@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block menu %}
+{#           <li><a href="{% url 'project_create' %} ">Add Project</a></li>#}
+
+{% endblock %}
+{% block content %}
+<h1 class="text-center">Users:</h1>
+    {% for users in user_obj %}
+        <h2>{{ users.username }}</h2>
+{#        <p><a href="{% url 'project_view' project.pk %}">More...</a></p>#}
+        <hr/>
+    {% endfor %}
+{% endblock %}
+</body>
+</html>

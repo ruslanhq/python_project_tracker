@@ -1,11 +1,13 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import UserPassesTestMixin
+from django.http import HttpResponseForbidden
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
-from django.views.generic import DetailView, UpdateView
+from django.urls import reverse
+from django.views.generic import DetailView, UpdateView, ListView
 
-from accounts.forms import UserCreationForm, UserUpdateForm
+from accounts.forms import UserCreationForm, UserUpdateForm, PasswordChangeForm
 
 
 def login_view(request):
@@ -54,9 +56,28 @@ class UserDetailView(DetailView):
     context_object_name = 'user_obj'
 
 
-# class UserChangeView(UserPassesTestMixin, UpdateView):
-#     model = User
-#     template_name = 'user_update.html'
-#     context_object_name = 'user_obj'
-#     form_class = UserUpdateForm
-#
+class UserChangeView(UserPassesTestMixin, UpdateView):
+    model = User
+    template_name = 'user_update.html'
+    context_object_name = 'user_obj'
+    form_class = UserUpdateForm
+
+    def test_func(self):
+        return self.get_object() == self.request.user
+
+    def get_success_url(self):
+        return reverse('accounts:user_profile', kwargs={'pk': self.object.pk})
+
+
+class UserChangePasswordView(UserChangeView):
+    template_name = 'user_change_pass.html'
+    form_class = PasswordChangeForm
+
+    def get_success_url(self):
+        return reverse('accounts:login')
+
+
+class UserListView(ListView):
+    context_object_name = 'user_obj'
+    template_name = 'users_list.html'
+    model = User
