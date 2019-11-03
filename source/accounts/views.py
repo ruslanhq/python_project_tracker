@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from django.views.generic import DetailView, UpdateView, ListView
 
-from accounts.forms import UserCreationForm, UserUpdateForm, PasswordChangeForm
+from accounts.forms import UserCreationForm, UserUpdateForm, PasswordChangeForm, SignUpForm
 
 
 # def login_view(request):
@@ -32,18 +32,12 @@ from accounts.forms import UserCreationForm, UserUpdateForm, PasswordChangeForm
 
 def register_view(request):
     if request.method == 'GET':
-        form = UserCreationForm()
+        form = SignUpForm()
         return render(request, 'register.html', {'form': form})
     elif request.method == 'POST':
-        form = UserCreationForm(data=request.POST)
+        form = SignUpForm(data=request.POST)
         if form.is_valid():
-            user = User(username=form.cleaned_data['username'],
-                        email=form.cleaned_data['email'],
-                        first_name=form.cleaned_data['first_name'],
-                        last_name=form.cleaned_data['last_name']
-                        )
-            user.set_password(form.cleaned_data['password'])
-            user.save()
+            user = form.save()
             login(request, user)
             return redirect('index')
         else:
