@@ -16,6 +16,13 @@ class Profile(models.Model):
         verbose_name = 'Профиль'
         verbose_name_plural = 'Профили'
 
-#
-# class Team(models.Model):
-#     user = models.
+
+class Team(models.Model):
+    user = models.ForeignKey('auth.User', related_name='team_user', on_delete=models.CASCADE, verbose_name='Пользователь')
+    project = models.ForeignKey('webapp.Project', related_name='team_projects', on_delete=models.CASCADE, verbose_name='Проект')
+    date_start = models.DateTimeField(verbose_name='Датасоздания')
+    date_finish = models.DateTimeField(verbose_name='Дата окончания')
+
+    def __str__(self):
+        return '{} | {}'.format(self.user, self.project)
+
