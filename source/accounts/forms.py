@@ -61,7 +61,11 @@ class UserUpdateForm(forms.ModelForm):
 
     def clean_git(self):
         git = self.cleaned_data.get('git')
-
+        url = ['github.com/', 'https://github.com/', '']
+        if git in url:
+            return git
+        else:
+            raise ValidationError('Invalid URL git', code='invalid_url_git')
 
     class Meta:
         model = User
