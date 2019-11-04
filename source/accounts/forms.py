@@ -35,6 +35,8 @@ class SignUpForm(UserCreationForm):
 class UserUpdateForm(forms.ModelForm):
     avatar = forms.ImageField(label='Аватар', required=False)
     birth_date = forms.DateField(label='День рождения', input_formats=['%Y-%m-%d', '%d.%m.%Y'], required=False)
+    about_me = forms.CharField(label='О себе', required=False, widget=forms.Textarea)
+    git = forms.URLField(label='Профиль github', required=False)
 
     def get_initial_for_field(self, field, field_name):
         if field_name in self.Meta.profile_fields:
@@ -50,13 +52,21 @@ class UserUpdateForm(forms.ModelForm):
         profile, _ = Profile.objects.get_or_create(user=self.instance)
         for field in self.Meta.profile_fields:
             setattr(profile, field, self.cleaned_data.get(field))
+
+        if not profile.avatar:
+            profile.avatar = None
+
         if commit:
             profile.save()
 
+    def clean_git(self):
+        git = self.cleaned_data.get('git')
+
+
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'email', 'avatar', 'birth_date']
-        profile_fields = ['avatar', 'birth_date']
+        fields = ['first_name', 'last_name', 'email', 'avatar', 'birth_date', 'about_me', 'git']
+        profile_fields = ['avatar', 'birth_date', 'about_me', 'git']
 
 
 class PasswordChangeForm(forms.ModelForm):
