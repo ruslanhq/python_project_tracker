@@ -28,6 +28,7 @@ from accounts.forms import UserCreationForm, UserUpdateForm, PasswordChangeForm,
 # def logout_view(request):
 #     logout(request)
 #     return redirect('index')
+from accounts.models import Profile
 
 
 def register_view(request):
@@ -38,6 +39,7 @@ def register_view(request):
         form = SignUpForm(data=request.POST)
         if form.is_valid():
             user = form.save()
+            Profile.objects.create(user=user)
             login(request, user)
             return redirect('index')
         else:
