@@ -1,6 +1,11 @@
+from django.contrib.auth.models import User
 from django.db import models
 
 # Create your models here.
+
+
+def get_admin():
+    return User.objects.get(username='admin').id
 
 
 class Task(models.Model):
@@ -11,6 +16,10 @@ class Task(models.Model):
     project = models.ForeignKey('webapp.Project', related_name='projects', on_delete=models.PROTECT, null=True,
                                 blank=False, verbose_name='Проект')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
+    created_by = models.ForeignKey(User, null=False, blank=False, default=get_admin, verbose_name='Автор задачи',
+                                   on_delete=models.PROTECT, related_name='c_tasks')
+    assigned_to = models.ForeignKey(User, null=False, blank=False, default=get_admin, verbose_name='Исполнитель задачи',
+                                    on_delete=models.PROTECT, related_name='a_tasks')
 
     def __str__(self):
         return self.summary
