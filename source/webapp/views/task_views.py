@@ -1,5 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
+from django.http import HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
 from django.utils.http import urlencode
 from django.views.generic import View, ListView, DetailView, CreateView, UpdateView, DeleteView
@@ -58,6 +59,12 @@ class TaskCreate(LoginRequiredMixin, CreateView):
     model = Task
     template_name = 'task/task_create.html'
     form_class = TaskForm
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.created_by = self.request.user
+        self.object.save()
+        return HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):
         return reverse('task_view', kwargs={'pk': self.object.pk})
