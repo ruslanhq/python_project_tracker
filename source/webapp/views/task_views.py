@@ -70,7 +70,7 @@ class TaskCreate(UserPassesTestMixin, CreateView):
 
     def test_func(self):
         project = self.get_project()
-        users = User.objects.filter(team_user__project=project)
+        users = project.users.all()
         if self.request.user in users:
             return True
         else:
@@ -99,7 +99,7 @@ class TaskUpdate(UserPassesTestMixin, UpdateView):
 
     def test_func(self):
         project = self.get_object().project
-        users = User.objects.filter(team_user__project=project)
+        users = project.users.all()
         if self.request.user in users:
             return True
         else:
@@ -117,7 +117,7 @@ class TaskDelete(UserPassesTestMixin, DeleteView):
 
     def test_func(self):
         project = self.get_object().project
-        users = User.objects.filter(team_user__project=project)
+        users = project.users.all()
         if self.request.user in users:
             return True
         else:
