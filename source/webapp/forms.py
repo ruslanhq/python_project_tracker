@@ -1,13 +1,20 @@
 from django import forms
+from django.contrib.auth.models import User
 from django.forms import widgets
 
+from accounts.models import Team
 from webapp.models import Status, Type, Task, Project
 
 
 class TaskForm(forms.ModelForm):
+    # def __init__(self, project, **kwargs):
+    #     super().__init__(**kwargs)
+    #     teams = Team.objects.filter(project=project)
+    #     self.fields['assigned_to'].queryset = User.objects.filter(team_user__project=teams)
+
     class Meta:
         model = Task
-        exclude = ['created_at', 'created_by']
+        exclude = ['created_at', 'created_by', 'project']
 
 
 class StatusForm(forms.ModelForm):
@@ -30,3 +37,9 @@ class ProjectForm(forms.ModelForm):
 
 class SimpleSearchForm(forms.Form):
     search = forms.CharField(max_length=100, required=False, label="Найти")
+
+
+# class ArticleCommentForm(forms.ModelForm):
+#     class Meta:
+#         model = Task
+#         fields = ['text']

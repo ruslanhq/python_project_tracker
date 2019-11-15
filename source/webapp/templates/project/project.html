@@ -7,6 +7,7 @@
 {% endblock %}
 {% block content %}
     <h1>{{ projects.name }}</h1>
+    <a href="{% url 'task_create' projects.pk %}">Issue create</a>
     <p>Description projects:  <b>{{ projects.description }}</b> </p>
     <h3 class="text-center">Задачи проеката:</h3>
     {% for task in tasks %}

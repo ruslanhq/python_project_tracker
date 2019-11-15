@@ -1,12 +1,16 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.models import User
 from django.db.models import Q
 from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse, reverse_lazy
 from django.utils.http import urlencode
 from django.views.generic import View, ListView, DetailView, CreateView, UpdateView, DeleteView
 
 from webapp.forms import TaskForm, SimpleSearchForm
-from webapp.models import Task
+from webapp.models import Task, Project
+
+
 # Create your views here.
 
 
@@ -55,14 +59,31 @@ class TaskView(DetailView):
     context_object_name = 'tasks'
 
 
-class TaskCreate(LoginRequiredMixin, CreateView):
+class TaskCreate(UserPassesTestMixin, CreateView):
     model = Task
     template_name = 'task/task_create.html'
     form_class = TaskForm
 
+    # def get_form_kwargs(self):
+    #     print(self.kwargs.get('pk'))
+    #     return super().get_form_kwargs()
+
+    def test_func(self):
+        project = self.get_project()
+        users = User.objects.filter(team_user__project=project)
+        if self.request.user in users:
+            return True
+        else:
+            return False
+
+    def get_project(self):
+        pk = self.kwargs.get('pk')
+        return get_object_or_404(Project, pk=pk)
+
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.created_by = self.request.user
+        self.object.project = self.get_project()
         self.object.save()
         return HttpResponseRedirect(self.get_success_url())
 
@@ -70,20 +91,39 @@ class TaskCreate(LoginRequiredMixin, CreateView):
         return reverse('task_view', kwargs={'pk': self.object.pk})
 
 
-class TaskUpdate(LoginRequiredMixin, UpdateView):
+class TaskUpdate(UserPassesTestMixin, UpdateView):
     form_class = TaskForm
     template_name = 'task/update.html'
     model = Task
     context_object_name = 'tasks'
 
+    def test_func(self):
+        project = self.get_object().project
+        users = User.objects.filter(team_user__project=project)
+        if self.request.user in users:
+            return True
+        else:
+            return False
+
     def get_success_url(self):
         return reverse('task_view', kwargs={'pk': self.object.pk})
 
 
-class TaskDelete(LoginRequiredMixin, DeleteView):
+class TaskDelete(UserPassesTestMixin, DeleteView):
     template_name = 'task/delete.html'
     model = Task
     context_object_name = 'tasks'
     success_url = reverse_lazy('index')
+
+    def test_func(self):
+        project = self.get_object().project
+        users = User.objects.filter(team_user__project=project)
+        if self.request.user in users:
+            return True
+        else:
+            return False
+
+
+
 
 
