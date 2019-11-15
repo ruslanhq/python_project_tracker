@@ -7,10 +7,9 @@ from webapp.models import Status, Type, Task, Project
 
 
 class TaskForm(forms.ModelForm):
-    # def __init__(self, project, **kwargs):
-    #     super().__init__(**kwargs)
-    #     teams = Team.objects.filter(project=project)
-    #     self.fields['assigned_to'].queryset = User.objects.filter(team_user__project=teams)
+    def __init__(self, project, **kwargs):
+        super().__init__(**kwargs)
+        self.fields['assigned_to'].queryset = project.users.all()
 
     class Meta:
         model = Task

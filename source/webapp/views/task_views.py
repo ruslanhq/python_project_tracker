@@ -64,9 +64,10 @@ class TaskCreate(UserPassesTestMixin, CreateView):
     template_name = 'task/task_create.html'
     form_class = TaskForm
 
-    # def get_form_kwargs(self):
-    #     print(self.kwargs.get('pk'))
-    #     return super().get_form_kwargs()
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['project'] = self.get_project()
+        return kwargs
 
     def test_func(self):
         project = self.get_project()
