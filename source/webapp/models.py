@@ -44,6 +44,8 @@ class Project(models.Model):
     description = models.TextField(max_length=400, null=True, blank=True, verbose_name='Описание проекта')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
     updated_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата обновления')
+    users = models.ManyToManyField(User, through='accounts.Team', through_fields=('project', 'user'),
+                                   related_name='projects', verbose_name='Пользователи')
 
     def __str__(self):
         return self.name
